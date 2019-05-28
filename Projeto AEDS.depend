@@ -1,0 +1,43 @@
+# depslib dependency file v1.0
+1558637570 source:c:\users\gusta\onedrive\햞ea de trabalho\projeto aeds\main.c
+	<stdio.h>
+	<stdlib.h>
+	<locale.h>
+	<string.h>
+	"Teclas.h"
+	"Tela.h"
+	"Selecao.h"
+	"Programa.h"
+
+1558197643 c:\users\gusta\onedrive\햞ea de trabalho\projeto aeds\teclas.h
+
+1558198650 c:\users\gusta\onedrive\햞ea de trabalho\projeto aeds\tela.h
+
+1558636587 c:\users\gusta\onedrive\햞ea de trabalho\projeto aeds\selecao.h
+	<string.h>
+	"Teclas.h"
+	"Tela.h"
+
+1558636587 c:\users\gusta\onedrive\햞ea de trabalho\projeto aeds\programa.h
+
+1558637755 source:c:\users\gusta\onedrive\햞ea de trabalho\projeto aeds\selecao.c
+	<stdio.h>
+	<string.h>
+	"Selecao.h"
+
+1558197644 source:c:\users\gusta\onedrive\햞ea de trabalho\projeto aeds\teclas.c
+	"Teclas.h"
+
+1558198651 source:c:\users\gusta\onedrive\햞ea de trabalho\projeto aeds\tela.c
+	<stdio.h>
+	<windows.h>
+	"Tela.h"
+
+1558637755 source:c:\users\gusta\onedrive\햞ea de trabalho\projeto aeds\programa.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<locale.h>
+	"Programa.h"
+	"Selecao.h"
+
