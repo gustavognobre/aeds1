@@ -67,5 +67,8 @@ Programa DigitarPrograma()
     Confirm=AdicionarOpcao(Confirm,"Cancela");
     MostrarSelecao(Confirm);
     AtivarSelecao(Confirm);
+    FILE*fp = fopen("lala.txt", "ab");
+    fwrite(&A, sizeof(Programa), 1, fp);
+    fclose(fp);
     return A;
 }
