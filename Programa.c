@@ -5,8 +5,17 @@
 #include "Programa.h"
 #include "Selecao.h"
 
-void TelaPrograma()
-{
+void Salva_Registro_No_Arquivo(Programa A){
+    FILE*fp = fopen("database.txt", "r+");
+    if(fp==NULL){
+        fp = fopen("database.txt", "w+");
+    }
+    fseek(fp, 0, SEEK_END);
+    fwrite(&A, sizeof(Programa), 1, fp);
+    fclose(fp);
+}
+
+void TelaPrograma(){
     Caixa(4,4,74,30);
     gotoxy(20,5);
     printf("=========CADASTRO DE PROGRAMA=========");
@@ -66,9 +75,8 @@ Programa DigitarPrograma()
     Confirm=AdicionarOpcao(Confirm,"Confirma");
     Confirm=AdicionarOpcao(Confirm,"Cancela");
     MostrarSelecao(Confirm);
-    AtivarSelecao(Confirm);
-    FILE*fp = fopen("lala.txt", "ab");
-    fwrite(&A, sizeof(Programa), 1, fp);
-    fclose(fp);
+    if (!AtivarSelecao(Confirm)){
+        Salva_Registro_No_Arquivo(A);
+    }
     return A;
 }
