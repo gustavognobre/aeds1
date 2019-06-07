@@ -9,10 +9,10 @@ struct programa
     char genero[51];
     char sinopse[200];
     char estudio[51];
-    int exibicao;
+    char exibicao[5];
     int duracao;
-    char sensura;
 };
+
 typedef struct programa Programa;
 void TelaPrograma();
 Programa DigitarPrograma();

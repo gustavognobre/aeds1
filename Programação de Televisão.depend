@@ -42,3 +42,48 @@
 	"Programa.h"
 	"Selecao.h"
 
+1559905016 source:c:\users\diego\desktop\new folder\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	"Teclas.h"
+	"Tela.h"
+	"Selecao.h"
+	"Programa.h"
+
+1559770052 c:\users\diego\desktop\new folder\teclas.h
+
+1559770052 c:\users\diego\desktop\new folder\tela.h
+
+1559770050 c:\users\diego\desktop\new folder\selecao.h
+	<string.h>
+	"Teclas.h"
+	"Tela.h"
+
+1559907721 c:\users\diego\desktop\new folder\programa.h
+
+1559910100 source:c:\users\diego\desktop\new folder\programa.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<locale.h>
+	<windows.h>
+	<assert.h>
+	"Programa.h"
+	"Selecao.h"
+
+1559792038 source:c:\users\diego\desktop\new folder\selecao.c
+	<stdio.h>
+	<string.h>
+	"Selecao.h"
+	"Programa.h"
+
+1559770048 source:c:\users\diego\desktop\new folder\teclas.c
+	"Teclas.h"
+
+1559770048 source:c:\users\diego\desktop\new folder\tela.c
+	<stdio.h>
+	<windows.h>
+	"Tela.h"
+

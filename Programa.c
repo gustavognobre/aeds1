@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
+#include <windows.h>
 #include <assert.h> //Faz asserções no código. Isso funciona como teste unitário.
 #include "Programa.h"
 #include "Selecao.h"
@@ -24,13 +25,12 @@ Programa Altera_Programa(Programa A, int codigo) {
     printf("\nEstudio atual: %s\n", A.estudio);
     printf("Informe o novo Estudio: ");
     scanf("%s", A.estudio);
-    printf("\nHorario de exibicao atual: %d\n", A.exibicao);
-    printf("Informe o novo horário: ");
-    scanf("%d", &A.exibicao);
+    printf("\nHorario de exibicao atual: %s\n", A.exibicao);
+    printf("Informe o novo horario: ");
+    scanf(" %s", A.exibicao);
     printf("\nDuracao atual: %d\n", A.duracao);
     printf("Informe a nova duracao: ");
     scanf("%d", &A.duracao);
-    printf("===============Sensura:");
     return A;
 }
 
@@ -38,6 +38,8 @@ void Salva_Registro_Arquivo(Programa A){
     FILE*fp = fopen("database.txt", "rb+");
     if(fp==NULL){
         FILE*fp = fopen("database.txt", "wb+");
+        printf("\nAVISO: O arquivo database.txt nao foi encontrado, um novo database foi gerado.\n");
+        Sleep(5000);
     }
     fseek(fp, 0, SEEK_END);
     fwrite(&A, sizeof(Programa), 1, fp);
@@ -48,8 +50,9 @@ void Altera_Registro_no_Database(Programa A, int codigo){
     Programa B;
     FILE*fp = fopen("database.txt", "rb+");
     if(fp == NULL){
-        printf("AVISO: O arquivo database.txt nao foi encontrado, um novo database foi gerado.");
         FILE*fp = fopen("database.txt", "wb+");
+        printf("\nAVISO: O arquivo database.txt nao foi encontrado, um novo database foi gerado.\n");
+        Sleep(5000);
     }
     while(fread(&B, sizeof(Programa), 1, fp)){
         if(B.codigo == codigo){
@@ -63,17 +66,19 @@ void Altera_Registro_no_Database(Programa A, int codigo){
 void Exclui_entrada_do_database(int codigo){
     Programa A;
     strcpy(A.nome, "Deletado");
-    strcpy(A.direcao, "");
-    strcpy(A.genero, "");
-    strcpy(A.estudio, "");
-    strcpy(A.sinopse, "");
-    A.exibicao = 0;
+    strcpy(A.direcao, "-");
+    strcpy(A.genero, "-");
+    strcpy(A.estudio, "-");
+    strcpy(A.sinopse, "-");
+    strcpy(A.exibicao, "-");
     A.duracao = 0;
+    A.codigo = 0;
     Programa B;
     FILE*fp = fopen("database.txt", "rb+");
     if(fp == NULL){
-        printf("AVISO: O arquivo database.txt nao foi encontrado, um novo database foi gerado.");
         FILE*fp = fopen("database.txt", "wb+");
+        printf("\nAVISO: O arquivo database.txt nao foi encontrado, um novo database foi gerado.\n");
+        Sleep(5000);
     }
     fseek(fp, 0, SEEK_SET);
     while(fread(&B, sizeof(Programa), 1, fp)){
@@ -91,48 +96,41 @@ void pesquisa_entrada_no_database(codigo){
     fseek(fp, 0, SEEK_SET);
     while(fread(&B, sizeof(Programa), 1, fp)){
         if(B.codigo == codigo){
-            int sair;
             printf("===========================================\n");
             printf("PROGRAMA: %s\n", B.nome);
             printf("DIRECAO: %s\n", B.direcao);
             printf("GENERO: %s\n", B.genero);
             printf("SINOPSE: %s\n", B.sinopse);
             printf("ESTUDIO: %s\n", B.estudio);
-            printf("HORARIO: %d Horas\n", B.estudio);
+            printf("HORARIO: %s Horas\n", B.exibicao);
             printf("DURACAO: %d Minutos\n", B.duracao);
             printf("===========================================\n");
-            printf("Aperte 0 para sair: ");
-            scanf("%d", &sair);
-            if(sair == 0){
-                break;
-            }
         }
     }
+    printf("Pressione uma tecla para voltar: ");
+    getchar();
     fclose(fp);
 }
 
-void lista_entradas_do_database(codigo){
-    int sair;
+void Lista_Entradas_do_Database(codigo){
     Programa B;
     FILE*fp = fopen("database.txt", "rb");
     fseek(fp, 0, SEEK_SET);
     while(fread(&B, sizeof(Programa), 1, fp)){
-        printf("===========================================\n");
+        printf("\n===========================================\n");
+        printf("CODIGO: %d\n", B.codigo);
         printf("PROGRAMA: %s\n", B.nome);
         printf("DIRECAO: %s\n", B.direcao);
         printf("GENERO: %s\n", B.genero);
         printf("SINOPSE: %s\n", B.sinopse);
         printf("ESTUDIO: %s\n", B.estudio);
-        printf("HORARIO: %d Horas\n", B.estudio);
+        printf("HORARIO: %s Hora(s)\n", B.exibicao);
         printf("DURACAO: %d Minutos\n", B.duracao);
         printf("===========================================\n");
     }
     fclose(fp);
-    printf("Aperte 0 para sair: ");
-    scanf("%d", &sair);
-    if(sair == 0){
-        return 0;
-    }
+    printf("Pressione uma tecla para voltar: ");
+    getchar();
 }
 
 void gerar_relatorio(){
@@ -145,13 +143,15 @@ void gerar_relatorio(){
     fseek(fb, 0, SEEK_SET);
     fprintf(ft, "CODIGO,PROGRAMA,DIRECAO,GENERO,SINOPSE,ESTUDIO,HORARIO,DURACAO\n");
     while(fread(&B, sizeof(Programa), 1, fb)){
-        fprintf(ft,"%d, %s, %, %s, %s, %s, %d Horas, %d minutos\n",
+        fprintf(ft,"%d, %s, %s, %s, %s, %s, %s Horas, %d minutos\n",
             B.codigo, B.nome, B.direcao, B.genero, B.sinopse, B.estudio, B.exibicao, B.duracao
         );
         total++;
         mins +=B.duracao;
     }
     fprintf(ft, "Total: %d, Horas de Programação: %d", total, mins/60);
+    printf("\n\n\n\n\n\tRelatorio gerado com sucesso!");
+    Sleep(2000);
     assert(fb);
     assert(ft);
     fclose(ft);
@@ -181,7 +181,7 @@ int Menu(){
     Menu=AdicionarOpcao(Menu,"Alterar");
     Menu=AdicionarOpcao(Menu,"Excluir");
     Menu=AdicionarOpcao(Menu,"Pesquisar");
-    Menu=AdicionarOpcao(Menu,"listar");
+    Menu=AdicionarOpcao(Menu,"Listar");
     Menu=AdicionarOpcao(Menu,"Relatorio");
     Menu=AdicionarOpcao(Menu,"Sair");
     TextColor(8);
@@ -257,25 +257,12 @@ void TelaPrograma(){
     gotoxy(6,20);
     printf("===Horario de Exibicao:");
     gotoxy(31,20);
-    scanf("%d",& A.exibicao);
+    scanf("%s", A.exibicao);
     gotoxy(6,22);
     printf("===============Duracao:");
     gotoxy(31,22);
     scanf("%d",& A.duracao);
     gotoxy(6,24);
-    printf("===============Sensura:");
-    gotoxy(31,24);
-
-    Selecao Sensura;
-    Sensura=CriarSelecao(26,10);
-    Sensura=AdicionarOpcao(Sensura,"L");
-    Sensura=AdicionarOpcao(Sensura,"10");
-    Sensura=AdicionarOpcao(Sensura,"12");
-    Sensura=AdicionarOpcao(Sensura,"14");
-    Sensura=AdicionarOpcao(Sensura,"16");
-    Sensura=AdicionarOpcao(Sensura,"18");
-    MostrarSelecao(Sensura);
-    AtivarSelecao(Sensura);
 
     Selecao Confirm;
     Confirm=CriarSelecao(28,10);
@@ -325,11 +312,9 @@ int codigo;
 }
 
 void TelaListar(){
-
     gotoxy(20,5);
-    printf("============PESQUISAR PROGRAMA===========");
+    printf("============LISTAR PROGRAMAS===========");
     gotoxy(6,8);
-    printf("================Codigo:");
     gotoxy(31,8);
-    lista_entradas_do_database();
+    Lista_Entradas_do_Database();
 }
