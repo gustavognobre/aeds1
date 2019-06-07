@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "Selecao.h"
+#include "Programa.h"
 
 Selecao CriarSelecao(int Linha, int Tamanho)
 {
@@ -31,11 +32,11 @@ int AtivarSelecao(Selecao S)
     while(1)
     {
         gotoxy(5+(S.OpcaoAtual*S.Tamanho),S.Linha);
-        TextColor(1);
-        printf("<%*s>", -(S.Tamanho-2),S.Opcoes[S.OpcaoAtual]);
+        TextColor(5);
+        printf("%*s", -(S.Tamanho-2),S.Opcoes[S.OpcaoAtual]);
         Tecla=getTecla();
         gotoxy(5+(S.OpcaoAtual*S.Tamanho),S.Linha);
-        TextColor(7);
+        TextColor(8);
         if (Tecla==TEC_ENTER)
             return S.OpcaoAtual;
         printf(" %*s ", -(S.Tamanho-2),S.Opcoes[S.OpcaoAtual]);
